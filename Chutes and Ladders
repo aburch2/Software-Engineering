@@ -1,0 +1,225 @@
+/******************************************************
+**  Programmer: Amber Burch                          **
+**  Obj: Implementing Chutes and Ladders             **
+**  Due Date: 2/1/2013                               **
+**  Machine: Codeblock 10.05 Windows 7               **
+**                                                   **
+** I'm stuck in my while loop after a player reaches **
+** 100 points                                        **
+** And I couldn't figure out how to do the ladders   **
+** and chutes                                        **
+*******************************************************/
+
+
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+const int row=10;
+const int col=10;
+
+void createBoard(int board [row] [col]);            //Creates a 10x10 matrix full of 0
+void displayBoard(int board [row] [col]);           //displays board to see players position
+void runGame(int board[row][col]);                  //Switches turns between players til one reaches 100
+void rules();                                       //Intro/Rules of the game
+
+int main()
+{
+    int board [row][col];
+
+    rules();                                //Call rules
+    createBoard(board);                     //Create board
+    runGame(board);                         //Then begin the game
+
+    return 0;
+}
+
+void rules()                                //Rules for the game
+{
+    cout << "First roll the dice and move your piece. Your piece \n";
+    cout << "is represented by the number of the order in which you go.\n";
+    cout << "A '0' represents a free space on the board. A 'C' is the\n";
+    cout << "beginning of a chute, and a 'L' is the beginning of a ladder.\n";
+    cout << "The ends of each are not shown.\n";
+    cout << "First person to reach the end wins. Good Luck :) \n\n\n";
+}
+
+void createBoard(int board[row][col])
+{
+        int r, c;
+                                               //Creates a 10x10 board
+        for (r=0; r<row; r++)                  //For r is less than 10, r++
+              for (c=0; c<col; c++)            //For c is less than 10, c++
+                      board [r][c]=0;          //puts the value 0 at every position on the board
+}
+void displayBoard(int board [row][col])
+{
+    int r, c;
+
+    for (r=0; r<row; r++)
+    {
+        for (c=0; c<col; c++)
+           cout << board [r][c];                //Cout board
+           cout << endl;
+    }
+}
+
+void runGame(int board[row][col])
+{
+    //Initialize values
+    int diceRoll;
+    int numPlayers;
+    int playerturn = 1;
+    int player1 = 1;
+    int player2 = 2;
+    int player3 = 3;
+    int player4 = 4;
+    int position1 = 0;
+    int position2 = 0;
+    int position3 = 0;
+    int position4 = 0;
+
+
+    int rowIndex, colIndex;
+    displayBoard(board);
+
+    cout << "How many players are there? (more then 1, no more then 4) ";
+    cin >> numPlayers;
+    cout << endl;
+
+    while (numPlayers >0 || numPlayers < 5 )
+    {
+
+        while(position1<100 || position2<100 || position3<100 || position4<100)        //check to see who reaches 100 first
+        {
+            playerturn = 1;
+            cin.get();                                     //Provides a break between players
+
+            if ( playerturn==1 )
+            {
+                                                           //To turn current position back to 0
+                rowIndex = (position1 - 1)/row;            //divide current position by row to find out what row
+                colIndex = (position1 - 1)%col;            //the remainder is what column the position should be
+                board[rowIndex][colIndex] = 0;             //change current position back to zero
+                diceRoll=(rand()%6)+1;                     //generate a random number from 1-6; at 1 so no value is 0
+                cout << "Player " << player1 << " has rolled a " << diceRoll << endl;          //Player rolled dice
+                position1 = position1 + diceRoll;          //add dice rolled to current position
+                cout << "Position = " << position1 << endl << "Press 'Enter' to see the new board." << endl;
+                cin.get();                                 //place player1 at new position on board
+                rowIndex = (position1 - 1)/row;            //Same Concept
+                colIndex = (position1 - 1)%col;
+                board[rowIndex][colIndex] = 1;             //Change the new position to represent the player
+                displayBoard(board);                       //Display board
+
+
+                if (playerturn<numPlayers)                 //If the current player is less then the total amount of players
+                {
+                    playerturn++;                          //Add to playerturn for next players turn
+                    cout << endl << "Press 'Enter' to roll dice player2" << endl;
+                    cin.get();                             //Gives a break so next player can hit enter to roll dice
+                }
+                else                                       //else if no more players, go back to player 1.
+                {
+                    cout << endl << "Press 'Enter' to roll dice Player1" <<endl;
+                }
+
+            }
+
+
+            if (playerturn==2)
+            {
+                                                           //To turn current position back to 0
+                rowIndex = (position2 - 1)/row;            //divide current position by row to find out what row
+                colIndex = (position2 - 1)%col;            //the remainder is what column the position should be
+                board[rowIndex][colIndex] = 0;             //change current position back to zero
+                diceRoll=(rand()%6)+1;                     //generate a random number from 1-6; at 1 so no value is 0
+                cout << "Player " << player2 << " has rolled a " << diceRoll << endl;          //Player rolled dice
+                position2 = position2 + diceRoll;          //add dice rolled to current position
+                cout << "Position = " << position2 << endl << "Press 'Enter' to see the new board." << endl;
+                cin.get();                                 //place player2 at new position on board
+                rowIndex = (position2 - 1)/row;            //Same concept
+                colIndex = (position2 - 1)%col;
+                board[rowIndex][colIndex] = 2;             //Change the new position to represent the player
+                displayBoard(board);
+
+
+                if (playerturn<numPlayers)                 //If the current player is less then the total amount of players
+                {
+                    playerturn++;                          //Add to playerturn for next players turn
+                    cout << endl <<  "Press 'Enter' to roll dice player3" << endl;
+                    cin.get();
+                }
+                else                                       //else if no more players, go back to player 1.
+                {
+                    cout << endl << "Press 'Enter' to roll dice Player1" <<endl;
+                }
+            }
+
+
+            if (playerturn==3)
+            {
+                                                           //To turn current position back to 0
+                rowIndex = (position3 - 1)/row;            //divide current position by row to find out what row
+                colIndex = (position3 - 1)%col;            //the remainder is what column the position should be
+                board[rowIndex][colIndex] = 0;             //change current position back to zero
+                diceRoll=(rand()%6)+1;                     //generate a random number from 1-6; at 1 so no value is 0
+                cout << "Player " << player3 << " has rolled a " << diceRoll << endl;          //Player rolled dice
+                position3 = position3 + diceRoll;          //add dice rolled to current position
+                cout << "Position = " << position3 << endl << "Press 'Enter' to see the new board." << endl;
+                cin.get();                                 //place player2 at new position on board
+                rowIndex = (position3 - 1)/row;            //Same Concept
+                colIndex = (position3 - 1)%col;
+                board[rowIndex][colIndex] = 3;             //Change current position to represent player
+                displayBoard(board);
+
+
+
+                if (playerturn<numPlayers)                 //If the current player is less then the total amount of players
+                {
+                    playerturn++;                          //Add to playerturn for next players turn
+                    cout << endl << "Press 'Enter' to roll dice player4" << endl;
+                    cin.get();
+                }
+                else                                       //else if no more players, go back to player
+                {
+                    cout << endl << "Press 'Enter' to roll dice Player1" <<endl;
+                }
+
+            }
+
+            if (playerturn==4)
+            {
+                                                           //To turn current position back to 0
+                rowIndex = (position4 - 1)/row;            //divide current position by row to find out what row
+                colIndex = (position4 - 1)%col;            //the remainder is what column the position should be
+                board[rowIndex][colIndex] = 0;             //change current position back to zero
+                diceRoll=(rand()%6)+1;                     //generate a random number from 1-6; at 1 so no value is 0
+                cout << "Player " << player4 << " has rolled a " << diceRoll << endl;          //Player rolled dice
+                position4 = position4 + diceRoll;          //add dice rolled to current position
+                cout << "Position = " << position4 << endl << "Press 'Enter' to see the new board." << endl;
+                cin.get();                                 //place player2 at new position on board
+                rowIndex = (position4 - 1)/row;            //Same Concept
+                colIndex = (position4 - 1)%col;
+                board[rowIndex][colIndex] = 4;             //change the new position to represent the player
+                displayBoard(board);
+
+
+
+                if (playerturn<=numPlayers)                //Go back to player one
+                {
+                    playerturn++;
+                    cout << endl << "Press 'Enter' to roll dice player1" << endl;
+                    cin.get();
+                }
+            }
+
+
+
+        }
+        cout << endl << "Game over!" << endl;
+
+    }
+
+}
